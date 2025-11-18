@@ -408,7 +408,7 @@ const sheetUrls = {
             </Avatar>
             <Box>
               <Typography variant={{ xs: 'h6', sm: 'h5' }} component="h1" fontWeight="bold" color="primary">
-                SRV Nutrition Analytics
+                PK Nutrition Analytics
               </Typography>
               <Typography variant="body2" color="text.secondary" sx={{ display: { xs: 'none', sm: 'block' } }}>
                 Smart insights from your nutrition data
