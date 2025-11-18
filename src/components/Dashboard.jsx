@@ -265,12 +265,18 @@ const sheetUrls = {
           height: '100%',
           display: 'flex',
           flexDirection: 'column',
-          borderRadius: 2
+          borderRadius: 2,
+          minHeight: { xs: '90px', sm: '120px' }
         }}
       >
-        <CardContent sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
-          <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
-            <Typography variant="subtitle2" color="text.secondary" textTransform="uppercase" fontWeight="bold">
+        <CardContent sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column', p: { xs: 1.5, sm: 2 } }}>
+          <Box display="flex" justifyContent="space-between" alignItems="center" mb={{ xs: 1, sm: 2 }}>
+            <Typography 
+              variant={{ xs: 'caption', sm: 'subtitle2' }} 
+              color="text.secondary" 
+              textTransform="uppercase" 
+              fontWeight="bold"
+            >
               {title}
             </Typography>
             <Chip
@@ -281,18 +287,18 @@ const sheetUrls = {
               }
             />
           </Box>
-          <Typography variant="h4" component="div" color={color} fontWeight="bold">
+          <Typography variant={{ xs: 'h6', sm: 'h4' }} component="div" color={color} fontWeight="bold">
             {current}
-            <Typography component="span" variant="body2" color="text.secondary" ml={1}>
+            <Typography component="span" variant={{ xs: 'caption', sm: 'body2' }} color="text.secondary" ml={1}>
               / {target}
               {unit}
             </Typography>
           </Typography>
-          <Box mt={2}>
+          <Box mt={{ xs: 1, sm: 2 }}>
             <LinearProgress
               variant="determinate"
               value={percentage}
-              sx={{ height: 8, borderRadius: 4 }}
+              sx={{ height: { xs: 6, sm: 8 }, borderRadius: 4 }}
             />
           </Box>
         </CardContent>
@@ -311,21 +317,29 @@ const sheetUrls = {
     return (
       <Card
         sx={{
-          height: '100%',
+          height: { xs: 'auto', lg: '100%' },
           display: 'flex',
           flexDirection: 'column',
-          borderRadius: 2
+          borderRadius: 2,
+          minHeight: { xs: '300px', sm: '350px', lg: '100%' }
         }}
       >
-        <CardContent sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
-          <Typography variant="h6" gutterBottom>
+        <CardContent sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column', p: { xs: 1.5, sm: 2 } }}>
+          <Typography variant={{ xs: 'subtitle1', sm: 'h6' }} gutterBottom>
             {startDate || endDate ? 'Filtered' : 'Weekly'} Calorie Trend
           </Typography>
-          <Box sx={{ flexGrow: 1, minHeight: 250 }}>
+          <Box sx={{ flexGrow: 1, minHeight: { xs: 250, sm: 300, lg: 250 } }}>
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={chartData}>
-                <XAxis dataKey="day" />
-                <YAxis />
+                <XAxis 
+                  dataKey="day" 
+                  fontSize={12}
+                  tick={{ fontSize: 12 }}
+                />
+                <YAxis 
+                  fontSize={12}
+                  tick={{ fontSize: 12 }}
+                />
                 <Bar
                   dataKey="calories"
                   fill="#4caf50"
@@ -364,39 +378,45 @@ const sheetUrls = {
   return (
     <Box
       sx={{
-        height: '100vh',
+        minHeight: '100vh',
         bgcolor: 'grey.50',
-        p: 1.5,
+        p: { xs: 1, sm: 1.5 },
         overflow: 'auto',
         display: 'flex',
         flexDirection: 'column'
       }}
     >
       {/* Header */}
-      <Paper elevation={2} sx={{ p: 1.5, mb: 1.5, borderRadius: 2, flexShrink: 0 }}>
+      <Paper elevation={2} sx={{ p: { xs: 1, sm: 1.5 }, mb: { xs: 1, sm: 1.5 }, borderRadius: 2, flexShrink: 0 }}>
         <Box
           display="flex"
+          flexDirection={{ xs: 'column', md: 'row' }}
           justifyContent="space-between"
-          alignItems="center"
-          flexWrap="wrap"
+          alignItems={{ xs: 'stretch', md: 'center' }}
           gap={2}
         >
-          <Box display="flex" alignItems="center" gap={1.5}>
-            <Avatar sx={{ width: 48, height: 48, bgcolor: 'primary.main' }}>
+          <Box display="flex" alignItems="center" gap={1.5} mb={{ xs: 2, md: 0 }}>
+            <Avatar sx={{ width: { xs: 40, sm: 48 }, height: { xs: 40, sm: 48 }, bgcolor: 'primary.main' }}>
               <Restaurant fontSize="medium" />
             </Avatar>
             <Box>
-              <Typography variant="h5" component="h1" fontWeight="bold" color="primary">
+              <Typography variant={{ xs: 'h6', sm: 'h5' }} component="h1" fontWeight="bold" color="primary">
                 SRV Nutrition Analytics
               </Typography>
-              <Typography variant="body2" color="text.secondary">
+              <Typography variant="body2" color="text.secondary" sx={{ display: { xs: 'none', sm: 'block' } }}>
                 Smart insights from your nutrition data
               </Typography>
             </Box>
           </Box>
 
-          <Box display="flex" alignItems="center" gap={1.5} flexWrap="wrap">
-            <FormControl size="small" sx={{ minWidth: 100 }}>
+          <Box 
+            display="flex" 
+            alignItems="center" 
+            gap={{ xs: 1, sm: 1.5 }} 
+            flexWrap="wrap"
+            justifyContent={{ xs: 'center', md: 'flex-end' }}
+          >
+            <FormControl size="small" sx={{ minWidth: { xs: 80, sm: 100 } }}>
               <InputLabel>Sheet</InputLabel>
               <Select
                 value={selectedSheet}
@@ -411,28 +431,28 @@ const sheetUrls = {
             <TextField
               size="small"
               type="date"
-              label="Start Date"
+              label="Start"
               value={startDate}
               onChange={(e) => setStartDate(e.target.value)}
               InputLabelProps={{ shrink: true }}
-              sx={{ width: 140 }}
+              sx={{ width: { xs: 110, sm: 140 } }}
             />
 
             <TextField
               size="small"
               type="date"
-              label="End Date"
+              label="End"
               value={endDate}
               onChange={(e) => setEndDate(e.target.value)}
               InputLabelProps={{ shrink: true }}
-              sx={{ width: 140 }}
+              sx={{ width: { xs: 110, sm: 140 } }}
             />
 
-            <Button variant="outlined" size="small" onClick={handleClearDates}>
+            <Button variant="outlined" size="small" onClick={handleClearDates} sx={{ minWidth: { xs: 60, sm: 'auto' } }}>
               Clear
             </Button>
 
-            <Button variant="outlined" size="small" onClick={handleToday}>
+            <Button variant="outlined" size="small" onClick={handleToday} sx={{ minWidth: { xs: 60, sm: 'auto' } }}>
               Today
             </Button>
 
@@ -442,8 +462,9 @@ const sheetUrls = {
               startIcon={loading ? <CircularProgress size={16} /> : <Refresh />}
               onClick={fetchData}
               disabled={loading}
+              sx={{ minWidth: { xs: 80, sm: 'auto' } }}
             >
-              {loading ? 'Loading...' : 'Refresh'}
+              {loading ? 'Load' : 'Refresh'}
             </Button>
           </Box>
         </Box>
@@ -458,12 +479,15 @@ const sheetUrls = {
         </Box>
       ) : (
         <>
-          {/* Macro Cards - Compact Row */}
+          {/* Macro Cards - Responsive Grid */}
           <Box
             display="grid"
-            gridTemplateColumns="repeat(4, 1fr)"
-            gap={1.5}
-            sx={{ mb: 1.5, height: '120px' }}
+            gridTemplateColumns={{ 
+              xs: 'repeat(2, 1fr)', 
+              sm: 'repeat(4, 1fr)' 
+            }}
+            gap={{ xs: 1, sm: 1.5 }}
+            sx={{ mb: { xs: 1, sm: 1.5 }, minHeight: { xs: '200px', sm: '120px' } }}
           >
             <MacroCard
               title="Calories"
@@ -492,69 +516,87 @@ const sheetUrls = {
             />
           </Box>
 
-          {/* Main Content Grid */}
+          {/* Main Content Grid - Responsive */}
           <Box
             display="grid"
-            gridTemplateColumns="1.8fr 1.2fr"
-            gridTemplateRows="1fr"
-            gap={2}
-            sx={{ flexGrow: 1, minHeight: 0, height: 'calc(100vh - 200px)' }}
+            gridTemplateColumns={{ 
+              xs: '1fr', 
+              lg: '1.8fr 1.2fr' 
+            }}
+            gap={{ xs: 1.5, sm: 2 }}
+            sx={{ 
+              flexGrow: 1, 
+              minHeight: { xs: 'auto', lg: 0 }, 
+              height: { xs: 'auto', lg: 'calc(100vh - 200px)' } 
+            }}
           >
-            {/* Large Chart - Left */}
+            {/* Chart - Full width on mobile, left on desktop */}
             <WeeklyChart />
 
-            {/* Right Side Grid */}
-            <Box display="grid" gridTemplateColumns="1fr 1fr" gap={3} sx={{ height: '100%' }}>
+            {/* Summary Cards - Stack on mobile, grid on desktop */}
+            <Box 
+              display="grid" 
+              gridTemplateColumns={{ xs: '1fr', sm: '1fr 1fr' }} 
+              gap={{ xs: 1.5, sm: 3 }} 
+              sx={{ height: { xs: 'auto', lg: '100%' } }}
+            >
                 <Card
                   sx={{
-                    height: '100%',
+                    height: { xs: 'auto', lg: '100%' },
                     display: 'flex',
                     flexDirection: 'column',
-                    borderRadius: 2
+                    borderRadius: 2,
+                    minHeight: { xs: '200px', sm: '250px' }
                   }}
                 >
-                  <CardContent sx={{ flexGrow: 1, p: 3, display: 'flex', flexDirection: 'column', justifyContent: 'space-evenly' }}>
-                    <Typography variant="h6" fontWeight="bold" textAlign="center" mb={3}>
+                  <CardContent sx={{ 
+                    flexGrow: 1, 
+                    p: { xs: 2, sm: 3 }, 
+                    display: 'flex', 
+                    flexDirection: 'column', 
+                    justifyContent: 'space-evenly' 
+                  }}>
+                    <Typography variant={{ xs: 'subtitle1', sm: 'h6' }} fontWeight="bold" textAlign="center" mb={{ xs: 2, sm: 3 }}>
                       Summary
                     </Typography>
-                    <Box display="flex" justifyContent="space-between" alignItems="center" py={1.5}>
-                      <Typography variant="body1" color="text.secondary" fontWeight="medium">
+                    <Box display="flex" justifyContent="space-between" alignItems="center" py={{ xs: 1, sm: 1.5 }}>
+                      <Typography variant={{ xs: 'body2', sm: 'body1' }} color="text.secondary" fontWeight="medium">
                         Entries
                       </Typography>
                       <Typography
-                        variant="h6"
+                        variant={{ xs: 'subtitle1', sm: 'h6' }}
                         fontWeight="bold"
                         color="primary"
                       >
                         {metrics.totalEntries || 0}
                       </Typography>
                     </Box>
-                    <Box display="flex" justifyContent="space-between" alignItems="center" py={1.5}>
-                      <Typography variant="body1" color="text.secondary" fontWeight="medium">
+                    <Box display="flex" justifyContent="space-between" alignItems="center" py={{ xs: 1, sm: 1.5 }}>
+                      <Typography variant={{ xs: 'body2', sm: 'body1' }} color="text.secondary" fontWeight="medium">
                         Total Cal
                       </Typography>
-                      <Typography variant="h6" fontWeight="bold" color="error">
+                      <Typography variant={{ xs: 'subtitle1', sm: 'h6' }} fontWeight="bold" color="error">
                         {metrics.totalCalories || 0}
                       </Typography>
                     </Box>
-                    <Box display="flex" justifyContent="space-between" alignItems="center" py={1.5}>
-                      <Typography variant="body1" color="text.secondary" fontWeight="medium">
+                    <Box display="flex" justifyContent="space-between" alignItems="center" py={{ xs: 1, sm: 1.5 }}>
+                      <Typography variant={{ xs: 'body2', sm: 'body1' }} color="text.secondary" fontWeight="medium">
                         Avg Cal
                       </Typography>
                       <Typography
-                        variant="h6"
+                        variant={{ xs: 'subtitle1', sm: 'h6' }}
                         fontWeight="bold"
                         color="warning.main"
                       >
                         {metrics.avgCalories || 0}
                       </Typography>
                     </Box>
-                    <Box display="flex" justifyContent="space-between" alignItems="center" py={1.5}>
-                      <Typography variant="body1" color="text.secondary" fontWeight="medium">
+                    <Box display="flex" justifyContent="space-between" alignItems="center" py={{ xs: 1, sm: 1.5 }}>
+                      <Typography variant={{ xs: 'body2', sm: 'body1' }} color="text.secondary" fontWeight="medium">
                         Days
                       </Typography>
                       <Typography
-                        variant="h6"
+                        variant={{ xs: 'subtitle1', sm: 'h6' }}
                         fontWeight="bold"
                         color="primary"
                       >
@@ -568,10 +610,11 @@ const sheetUrls = {
                   sx={{
                     bgcolor: 'primary.main',
                     color: 'white',
-                    height: '100%',
+                    height: { xs: 'auto', lg: '100%' },
                     display: 'flex',
                     flexDirection: 'column',
-                    borderRadius: 2
+                    borderRadius: 2,
+                    minHeight: { xs: '150px', sm: '200px' }
                   }}
                 >
                   <CardContent
@@ -581,14 +624,14 @@ const sheetUrls = {
                       display: 'flex',
                       flexDirection: 'column',
                       justifyContent: 'center',
-                      p: 1.5
+                      p: { xs: 1.5, sm: 2 }
                     }}
                   >
-                    <Typography variant="subtitle2" gutterBottom>
+                    <Typography variant={{ xs: 'caption', sm: 'subtitle2' }} gutterBottom>
                       Score
                     </Typography>
                     <Typography
-                      variant="h3"
+                      variant={{ xs: 'h4', sm: 'h3' }}
                       component="div"
                       fontWeight="bold"
                       mb={0.5}
@@ -598,7 +641,7 @@ const sheetUrls = {
                     <Typography variant="caption" sx={{ opacity: 0.8 }} mb={1}>
                       Health Rating
                     </Typography>
-                    <Typography variant="body2">{scoreLabel}</Typography>
+                    <Typography variant={{ xs: 'caption', sm: 'body2' }}>{scoreLabel}</Typography>
                   </CardContent>
                 </Card>
               </Box>
