@@ -118,29 +118,39 @@ const sheetUrls = {
 
     const trimmed = dateValue.toString().trim()
 
-    let dateObj = null
+    let year, month, day
 
     // DD-MM-YYYY
     if (/^\d{2}-\d{2}-\d{4}$/.test(trimmed)) {
-      const [day, month, year] = trimmed.split('-')
-      dateObj = new Date(`${year}-${month}-${day}`)
+      const [d, m, y] = trimmed.split('-')
+      year = parseInt(y)
+      month = parseInt(m) - 1
+      day = parseInt(d)
     }
     // YYYY-MM-DD
     else if (/^\d{4}-\d{2}-\d{2}$/.test(trimmed)) {
-      dateObj = new Date(trimmed)
+      const [y, m, d] = trimmed.split('-')
+      year = parseInt(y)
+      month = parseInt(m) - 1
+      day = parseInt(d)
     } else {
       // fallback: let JS try
       const tmp = new Date(trimmed)
       if (!isNaN(tmp.getTime())) {
-        dateObj = tmp
+        year = tmp.getFullYear()
+        month = tmp.getMonth()
+        day = tmp.getDate()
+      } else {
+        return { dateObj: null, dateKey: null }
       }
     }
 
-    if (!dateObj || isNaN(dateObj.getTime())) {
+    const dateObj = new Date(year, month, day)
+    if (isNaN(dateObj.getTime())) {
       return { dateObj: null, dateKey: null }
     }
 
-    const dateKey = dateObj.toISOString().slice(0, 10) // YYYY-MM-DD
+    const dateKey = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`
     return { dateObj, dateKey }
   }
 
@@ -240,7 +250,8 @@ const sheetUrls = {
     }
 
     const chartDataComputed = weeklyDataArr.map(([dateKey, calories]) => {
-      const dateObj = new Date(dateKey)
+      const [year, month, day] = dateKey.split('-')
+      const dateObj = new Date(parseInt(year), parseInt(month) - 1, parseInt(day))
       return {
         day: dateObj.toLocaleDateString('en', { weekday: 'short' }),
         date: dateKey,
@@ -288,11 +299,7 @@ const sheetUrls = {
             />
           </Box>
           <Typography variant={{ xs: 'h6', sm: 'h4' }} component="div" color={color} fontWeight="bold">
-            {current}
-            <Typography component="span" variant={{ xs: 'caption', sm: 'body2' }} color="text.secondary" ml={1}>
-              / {target}
-              {unit}
-            </Typography>
+            {current}{unit}
           </Typography>
           <Box mt={{ xs: 1, sm: 2 }}>
             <LinearProgress
