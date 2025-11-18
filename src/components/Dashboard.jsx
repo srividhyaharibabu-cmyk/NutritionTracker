@@ -5,7 +5,7 @@ import {
   Paper, TextField
 } from '@mui/material'
 import {
-  Restaurant, Refresh
+  FitnessCenter, Refresh
 } from '@mui/icons-material'
 import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer } from 'recharts'
 
@@ -404,7 +404,7 @@ const sheetUrls = {
         >
           <Box display="flex" alignItems="center" gap={1.5} mb={{ xs: 2, md: 0 }}>
             <Avatar sx={{ width: { xs: 40, sm: 48 }, height: { xs: 40, sm: 48 }, bgcolor: 'primary.main' }}>
-              <Restaurant fontSize="medium" />
+              <FitnessCenter fontSize="medium" />
             </Avatar>
             <Box>
               <Typography variant={{ xs: 'h6', sm: 'h5' }} component="h1" fontWeight="bold" color="primary">
