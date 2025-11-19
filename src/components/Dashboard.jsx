@@ -7,7 +7,7 @@ import {
 import {
   FitnessCenter, Refresh
 } from '@mui/icons-material'
-import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer } from 'recharts'
+import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer, Tooltip } from 'recharts'
 
 const Dashboard = () => {
   const [selectedSheet, setSelectedSheet] = useState('sheet1')
@@ -230,9 +230,8 @@ const sheetUrls = {
     })
 
     const weeklyDataArr = Object.entries(dailyCalories)
-      .sort(([a], [b]) => new Date(b) - new Date(a))
-      .slice(0, 7)
-      .reverse()
+      .sort(([a], [b]) => new Date(a) - new Date(b))
+      .slice(-7)
 
     const metricsComputed = {
       totalEntries: validEntryCount,
@@ -332,7 +331,7 @@ const sheetUrls = {
         }}
       >
         <CardContent sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column', p: { xs: 1.5, sm: 2 } }}>
-          <Typography variant={{ xs: 'subtitle1', sm: 'h6' }} gutterBottom>
+          <Typography variant={{ xs: 'subtitle1', sm: 'h6' }} fontWeight="bold" gutterBottom>
             {startDate || endDate ? 'Filtered' : 'Weekly'} Calorie Trend
           </Typography>
           <Box sx={{ flexGrow: 1, minHeight: { xs: 250, sm: 300, lg: 250 } }}>
@@ -346,6 +345,21 @@ const sheetUrls = {
                 <YAxis 
                   fontSize={12}
                   tick={{ fontSize: 12 }}
+                />
+                <Tooltip 
+                  formatter={(value) => [`${value} kcal`, 'Calories']}
+                  labelFormatter={(label, payload) => {
+                    if (payload && payload[0]) {
+                      const date = new Date(payload[0].payload.date)
+                      return date.toLocaleDateString('en-US', { 
+                        weekday: 'long', 
+                        year: 'numeric', 
+                        month: 'long', 
+                        day: 'numeric' 
+                      })
+                    }
+                    return label
+                  }}
                 />
                 <Bar
                   dataKey="calories"
