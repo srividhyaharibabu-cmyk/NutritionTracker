@@ -349,14 +349,17 @@ const sheetUrls = {
                 <Tooltip 
                   formatter={(value) => [`${value} kcal`, 'Calories']}
                   labelFormatter={(label, payload) => {
-                    if (payload && payload[0]) {
-                      const date = new Date(payload[0].payload.date)
-                      return date.toLocaleDateString('en-US', { 
-                        weekday: 'long', 
-                        year: 'numeric', 
-                        month: 'long', 
-                        day: 'numeric' 
-                      })
+                    if (payload && payload[0] && payload[0].payload && payload[0].payload.date) {
+                      const dateStr = payload[0].payload.date
+                      const date = new Date(dateStr)
+                      if (!isNaN(date.getTime())) {
+                        return date.toLocaleDateString('en-US', { 
+                          weekday: 'long', 
+                          year: 'numeric', 
+                          month: 'long', 
+                          day: 'numeric' 
+                        })
+                      }
                     }
                     return label
                   }}
