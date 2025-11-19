@@ -380,21 +380,40 @@ const sheetUrls = {
     ) || 0
 
   const scoreLabel =
-    metrics.avgCalories > 2000 ? '🎯 Great!' : metrics.avgCalories > 1500 ? '📈 Good!' : '💪 Improve!'
+    score >= 80 ? '🎯 Excellent Progress!' : 
+    score >= 60 ? '📈 Good Progress!' : 
+    score >= 40 ? '⚡ Getting Started!' : 
+    '💪 Keep Going!'
 
   return (
     <Box
       sx={{
         minHeight: '100vh',
-        bgcolor: 'grey.50',
-        p: { xs: 1, sm: 1.5 },
+        bgcolor: 'grey.100',
+        p: { xs: 2, sm: 3 },
         overflow: 'auto',
         display: 'flex',
         flexDirection: 'column'
       }}
     >
+      <Box
+        sx={{
+          maxWidth: '1400px',
+          mx: 'auto',
+          width: '100%',
+          bgcolor: 'white',
+          borderRadius: 3,
+          border: '1px solid',
+          borderColor: 'grey.200',
+          boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
+          p: { xs: 2, sm: 3 },
+          display: 'flex',
+          flexDirection: 'column',
+          minHeight: 'calc(100vh - 48px)'
+        }}
+      >
       {/* Header */}
-      <Paper elevation={2} sx={{ p: { xs: 1, sm: 1.5 }, mb: { xs: 1, sm: 1.5 }, borderRadius: 2, flexShrink: 0 }}>
+      <Paper elevation={1} sx={{ p: { xs: 2, sm: 2.5 }, mb: { xs: 2, sm: 3 }, borderRadius: 2, flexShrink: 0, border: '1px solid', borderColor: 'grey.100' }}>
         <Box
           display="flex"
           flexDirection={{ xs: 'column', md: 'row' }}
@@ -493,8 +512,8 @@ const sheetUrls = {
               xs: 'repeat(2, 1fr)', 
               sm: 'repeat(4, 1fr)' 
             }}
-            gap={{ xs: 1, sm: 1.5 }}
-            sx={{ mb: { xs: 1, sm: 1.5 }, minHeight: { xs: '200px', sm: '120px' } }}
+            gap={{ xs: 2, sm: 2.5 }}
+            sx={{ mb: { xs: 2, sm: 3 }, minHeight: { xs: '200px', sm: '120px' } }}
           >
             <MacroCard
               title="Calories"
@@ -530,7 +549,7 @@ const sheetUrls = {
               xs: '1fr', 
               lg: '1.8fr 1.2fr' 
             }}
-            gap={{ xs: 1.5, sm: 2 }}
+            gap={{ xs: 2, sm: 3 }}
             sx={{ 
               flexGrow: 1, 
               minHeight: { xs: 'auto', lg: 0 }, 
@@ -615,15 +634,34 @@ const sheetUrls = {
 
                 <Card
                   sx={{
-                    bgcolor: 'primary.main',
+                    background: score >= 80 ? 'linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%)' : 
+                               score >= 60 ? 'linear-gradient(135deg, #FF9800 0%, #F57C00 100%)' : 
+                               'linear-gradient(135deg, #F44336 0%, #C62828 100%)',
                     color: 'white',
                     height: { xs: 'auto', lg: '100%' },
                     display: 'flex',
                     flexDirection: 'column',
-                    borderRadius: 2,
-                    minHeight: { xs: '150px', sm: '200px' }
+                    borderRadius: 3,
+                    minHeight: { xs: '180px', sm: '220px' },
+                    boxShadow: '0 8px 32px rgba(0,0,0,0.12)',
+                    position: 'relative',
+                    overflow: 'hidden'
                   }}
                 >
+                  {/* Decorative circle */}
+                  <Box
+                    sx={{
+                      position: 'absolute',
+                      top: -20,
+                      right: -20,
+                      width: 80,
+                      height: 80,
+                      borderRadius: '50%',
+                      bgcolor: 'rgba(255,255,255,0.1)',
+                      display: { xs: 'none', sm: 'block' }
+                    }}
+                  />
+                  
                   <CardContent
                     sx={{
                       textAlign: 'center',
@@ -631,30 +669,62 @@ const sheetUrls = {
                       display: 'flex',
                       flexDirection: 'column',
                       justifyContent: 'center',
-                      p: { xs: 1.5, sm: 2 }
+                      p: { xs: 2, sm: 3 },
+                      position: 'relative',
+                      zIndex: 1
                     }}
                   >
-                    <Typography variant={{ xs: 'caption', sm: 'subtitle2' }} gutterBottom>
-                      Score
-                    </Typography>
-                    <Typography
-                      variant={{ xs: 'h4', sm: 'h3' }}
-                      component="div"
-                      fontWeight="bold"
-                      mb={0.5}
+                    <Typography 
+                      variant={{ xs: 'body2', sm: 'subtitle1' }} 
+                      sx={{ opacity: 0.9, fontWeight: 500 }}
+                      gutterBottom
                     >
-                      {score}
+                      Nutrition Score
                     </Typography>
-                    <Typography variant="caption" sx={{ opacity: 0.8 }} mb={1}>
-                      Health Rating
+                    
+                    <Box sx={{ my: 1 }}>
+                      <Typography
+                        variant={{ xs: 'h2', sm: 'h1' }}
+                        component="div"
+                        fontWeight="bold"
+                        sx={{ 
+                          fontSize: { xs: '2.5rem', sm: '3.5rem' },
+                          lineHeight: 1,
+                          textShadow: '0 2px 4px rgba(0,0,0,0.2)'
+                        }}
+                      >
+                        {score}%
+                      </Typography>
+                    </Box>
+                    
+                    <Typography 
+                      variant={{ xs: 'body2', sm: 'body1' }} 
+                      sx={{ 
+                        opacity: 0.95, 
+                        fontWeight: 600,
+                        fontSize: { xs: '0.9rem', sm: '1.1rem' }
+                      }}
+                      mb={1}
+                    >
+                      {scoreLabel}
                     </Typography>
-                    <Typography variant={{ xs: 'caption', sm: 'body2' }}>{scoreLabel}</Typography>
+                    
+                    <Typography 
+                      variant="caption" 
+                      sx={{ 
+                        opacity: 0.8,
+                        fontSize: { xs: '0.7rem', sm: '0.75rem' }
+                      }}
+                    >
+                      Based on daily calorie goal achievement
+                    </Typography>
                   </CardContent>
                 </Card>
               </Box>
             </Box>
           </>
         )}
+      </Box>
     </Box>
   )
 }
