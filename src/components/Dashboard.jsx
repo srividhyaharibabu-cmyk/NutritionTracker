@@ -5,11 +5,11 @@ import {
   Paper, TextField
 } from '@mui/material'
 import {
-  FitnessCenter, Refresh
+  FitnessCenter, Refresh, Logout
 } from '@mui/icons-material'
 import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer, Tooltip } from 'recharts'
 
-const Dashboard = () => {
+const Dashboard = ({ user, onLogout }) => {
   const [selectedSheet, setSelectedSheet] = useState('sheet1')
   const [rawData, setRawData] = useState([])
   const [loading, setLoading] = useState(false)
@@ -508,6 +508,17 @@ const sheetUrls = {
               sx={{ minWidth: { xs: 80, sm: 'auto' } }}
             >
               {loading ? 'Load' : 'Refresh'}
+            </Button>
+
+            <Button
+              variant="outlined"
+              size="small"
+              startIcon={<Logout />}
+              onClick={onLogout}
+              color="error"
+              sx={{ minWidth: { xs: 80, sm: 'auto' } }}
+            >
+              Logout
             </Button>
           </Box>
         </Box>

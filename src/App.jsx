@@ -1,4 +1,6 @@
+import { useState, useEffect } from 'react'
 import Dashboard from './components/Dashboard'
+import AuthForm from './components/AuthForm'
 import { ThemeProvider, createTheme } from '@mui/material/styles'
 import CssBaseline from '@mui/material/CssBaseline'
 
@@ -47,10 +49,38 @@ const theme = createTheme({
 })
 
 function App() {
+  const [user, setUser] = useState(null)
+
+  useEffect(() => {
+    const savedUser = localStorage.getItem('nutritionUser')
+    if (savedUser) {
+      try {
+        setUser(JSON.parse(savedUser))
+      } catch {
+        localStorage.removeItem('nutritionUser')
+      }
+    }
+  }, [])
+
+  const handleLogin = (userData) => {
+    setUser(userData)
+    localStorage.setItem('nutritionUser', JSON.stringify(userData))
+  }
+
+  const handleLogout = () => {
+    setUser(null)
+    localStorage.removeItem('nutritionUser')
+    localStorage.removeItem('token')
+  }
+
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <Dashboard />
+      {user ? (
+        <Dashboard user={user} onLogout={handleLogout} />
+      ) : (
+        <AuthForm onLogin={handleLogin} />
+      )}
     </ThemeProvider>
   )
 }
